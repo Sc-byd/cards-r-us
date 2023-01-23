@@ -57,6 +57,18 @@ passport.use(
     }
   )
 );
+
+passport.use(
+  new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID || '',
+    clientSecret: process.env.GOOGLE_SECRET||'',
+    callbackURL: 'http://localhost:8080/oauth/google/callback',
+  }, function (accessToken: any, refreshToken: any, profile: any, done: any) { 
+    console.log('Google Strategy');
+    done(null, profile);
+  }) 
+)
+
 passport.serializeUser(function (user, done) {
   done(null, user);
 });

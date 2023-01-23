@@ -17,13 +17,15 @@ router.get(
     res.redirect('/cards');
   }
 );
-
-router.get('/google', ( req: Request, res: Response) => {
-  res.send('<h1>This is now received</h1>');
-})
 // NOT SURE IF NEEDED
 // router.get('/github/failure', (req, res) => {
 //   res.send('Failure');
 // });
 
+router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login'}), (req: Request, res: Response) => {
+  res.redirect('/cards');
+  }
+);
 export default router;
