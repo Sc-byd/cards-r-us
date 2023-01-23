@@ -10,6 +10,9 @@ import { Router } from 'express';
  // Ai generation router
  import aiGeneration from './generation/generation';
 
+ //experiment route
+ import experiment from './experiment';
+
 const router = Router();
 
 
@@ -24,5 +27,8 @@ router.use('/generate', aiGeneration);
 
 // oauth
 router.use('/oauth', oauthRouter);
+
+//experiment
+router.use('/experiment', experiment);
 
 export default router;

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/gorillainsuit/tmpname#readme",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.254.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fontsource/public-sans": "^4.5.11",
