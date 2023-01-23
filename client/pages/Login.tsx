@@ -74,7 +74,7 @@ const Login = () => {
           Forget password?
         </Link>
         <div className='Icons'>
-          <a className='icon' href='/login/federated/google'>
+          <a className='icon' href='/oauth/google'>
             <i className='fa-brands fa-google'></i>
           </a>
           <a className='icon' href='/oauth/github'>

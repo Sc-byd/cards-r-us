@@ -3,7 +3,7 @@ require('dotenv').config();
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: process.env.TARGET,
+  mode: process.env.TARGET || 'development',
   entry: path.resolve('./client/index.tsx'),
 
   module: {

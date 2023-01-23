@@ -12,6 +12,8 @@ import oauthRouter from './routes/oauth/oauth';
 // const GitHubStrategy = require('passport-github2').Strategy;
 import { Strategy as GitHubStrategy } from 'passport-github2';
 dotenv.config();
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+
 
 const PORT = 3000;
 const app = express();

@@ -18,6 +18,9 @@ router.get(
   }
 );
 
+router.get('/google', ( req: Request, res: Response) => {
+  res.send('<h1>This is now received</h1>');
+})
 // NOT SURE IF NEEDED
 // router.get('/github/failure', (req, res) => {
 //   res.send('Failure');
