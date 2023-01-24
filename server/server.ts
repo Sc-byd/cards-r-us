@@ -18,6 +18,7 @@ const app = express();
 
 // api router
 import apiRouter from './routes/api';
+import { keyframes } from '@emotion/react';
 
 app.use(cookieParser());
 app.use(express.json());
@@ -46,11 +47,24 @@ passport.use(
       clientSecret: process.env.GITHUB_SECRET || '',
       callbackURL: 'http://localhost:8080/oauth/github/callback',
     },
-    function (accessToken: any, refreshToken: any, profile: any, done: any) {
-      console.log('GITHUB STRATEGY');
-      //here this could create a user profil in mongodb with mongoose findOne(){upsert:true}
-      //USER.findOne(,{upsert:true})
-      //USER.create(profile)
+    async function (accessToken: any, refreshToken: any, profile: any, done: any) {
+      const newUser = {
+        //insert keys that match Usermodel, insert values that match profile values 
+      }
+
+      try{
+        let user ;// await User.findOne({userId: profile.id}) ;
+        if(user){
+          done(null, user)
+        }
+        else{
+          //user = User.create(newUser)
+          //done(null, user)
+        }
+
+      }catch(err){
+        throw new Error('error in the GitHub Strategy Login')
+      }
       done(null, profile);
     }
   )

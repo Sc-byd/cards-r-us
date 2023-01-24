@@ -10,13 +10,15 @@ import oauthRouter from './oauth/oauth';
 // Ai generation router
 import aiGeneration from './generation/generation';
 
+import oauthController from '../controllers/oauth/oAuthController';
+
 const router = Router();
 
 // auth route
 router.use('/auth', authRouter);
 
 //cardsRoute
-router.use('/cards', cardsRouter);
+router.use('/cards', oauthController.ensureAuth, cardsRouter);
 
 //createRoute
 router.use('/generate', aiGeneration);
