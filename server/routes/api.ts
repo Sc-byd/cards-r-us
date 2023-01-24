@@ -10,6 +10,8 @@ import oauthRouter from './oauth/oauth';
 // Ai generation router
 import aiGeneration from './generation/generation';
 
+import oauthController from '../controllers/oauth/oAuthController';
+
 const router = Router();
 
 // auth route

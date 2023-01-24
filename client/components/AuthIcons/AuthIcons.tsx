@@ -10,7 +10,7 @@ interface AuthOption {
 const authOptions: AuthOption[] = [
   {
     name: 'google',
-    href: '#',
+    href : '/oauth/google',
     className: 'fa-brands fa-google',
   },
   {

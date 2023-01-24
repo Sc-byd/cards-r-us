@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import authController from '../controllers/authController';
+import oauthController from '../controllers/oauth/oAuthController';
 import sessionController from '../controllers/sessionController';
 
 const router = Router();
@@ -8,6 +9,7 @@ const router = Router();
 router.post(
   '/login',
   authController.verifyUser,
+  oauthController.ensureGuest,
   sessionController.startSession,
   (req: Request, res: Response) => {
     res.status(200).json(res.locals.user);
@@ -24,9 +26,13 @@ router.post(
   }
 );
 
-router.get('/user', sessionController.isLoggedIn, (req: Request, res: Response) => {
-  const { email, username, avatar, name, _id } = res.locals.user;
-  res.status(200).json({ email, username, avatar, name, userId: _id });
-});
+router.get(
+  '/user',
+  sessionController.isLoggedIn,
+  (req: Request, res: Response) => {
+    const { email, username, avatar, name, _id } = res.locals.user;
+    res.status(200).json({ email, username, avatar, name, userId: _id });
+  }
+);
 
 export default router;
