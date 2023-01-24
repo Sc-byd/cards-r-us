@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Card.module.scss';
+import { CardData } from '../../../server/models/CardModel';
 
 import paperTexture from '/client/images/textures/paper.png';
 import cardboardTexture from '/client/images/textures/cardboard.png';
@@ -7,7 +8,6 @@ import metalTexture from '/client/images/textures/aluminum.png';
 import leatherTexture from '/client/images/textures/leather.png';
 import woodTexture from '/client/images/textures/wood.png';
 import fabricTexture from '/client/images/textures/fabric.png';
-import { CardData } from '../../../server/models/CardModel';
 
 export type Texture = keyof typeof TEXTURES;
 
