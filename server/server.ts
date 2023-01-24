@@ -20,6 +20,7 @@ const app = express();
 
 // api router
 import apiRouter from './routes/api';
+import { keyframes } from '@emotion/react';
 
 app.use(cookieParser());
 app.use(express.json());
@@ -38,6 +39,9 @@ app.use(
     // need to update models appropriately
   })
 );
+//user does Oauth thing get authenticated by github
+//callback function inside of passportUse 
+//
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -48,11 +52,25 @@ passport.use(
       clientSecret: process.env.GITHUB_SECRET || '',
       callbackURL: 'http://localhost:8080/oauth/github/callback',
     },
-    function (accessToken: any, refreshToken: any, profile: any, done: any) {
-      console.log('GITHUB STRATEGY');
-      //here this could create a user profil in mongodb with mongoose findOne(){upsert:true}
-      //USER.findOne(,{upsert:true})
-      //USER.create(profile)
+    async function (accessToken: any, refreshToken: any, profile: any, done: any) {
+      const newUser = {
+        //make a new object to store in DB
+        //insert keys that match Usermodel, insert values that match profile values 
+      }
+
+      try{
+        let user ;// await User.findOne({userId: profile.id}) ;
+        if(user){
+          done(null, user)
+        }
+        else{
+          //user = User.create(newUser)
+          //done(null, user)
+        }
+
+      }catch(err){
+        throw new Error('error in the GitHub Strategy Login')
+      }
       done(null, profile);
     }
   )
@@ -69,21 +87,28 @@ passport.use(
   }) 
 )
 
+//if not authorized homepage login signup if not authenticated
+//if authenticated, dont allow them to go to login or homepage 
+
+//stores in DB
 passport.serializeUser(function (user, done) {
+  //need to find the id in user-->only need id
   done(null, user);
 });
 
+//turns cookie info into user object
 passport.deserializeUser(function (user: any, done) {
   done(null, user);
 });
+
+
 //static server dist folder
-
-app.use('/', express.static(path.resolve('./dist')));
-
 // Main page
 app.get('/', (req: Request, res: Response) => {
-  res.status(200).sendFile(path.resolve('./dist/index.html'));
+  res.status(200).sendFile(path.resolve());
 });
+
+app.use(express.static(path.resolve('dist')));
 
 // All api routes
 app.use('/oauth', oauthRouter);
@@ -91,8 +116,8 @@ app.use('/api', apiRouter);
 
 // app.use('/google', googleRouter);
 // 404 redirect to index.html for react router
-app.use((req: Request, res: Response) =>
-  res.status(200).sendFile(path.resolve('./dist/index.html'))
+app.use('*', (req: Request, res: Response) =>
+  res.status(200).sendFile(path.resolve('dist/index.html'))
 );
 
 export interface ExpressError {

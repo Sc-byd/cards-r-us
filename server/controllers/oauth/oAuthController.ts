@@ -7,6 +7,26 @@ const oauthController = {
     github,
   },
 
+  //checks if authorized . isAuthenticated() is something not documented in the Passportjs docs. 
+  //Had to research in stack overflow , video tutorials
+  ensureAuth: (req: Request, res: Response, next: NextFunction) => {
+    if (req.isAuthenticated()) {
+      return next();
+    } else {
+      res.redirect('/login');
+    }
+  },
+
+  //if logged in lets redirect folks who try to get to the login page to the dash board
+  ensureGuest: (req: Request, res: Response, next: NextFunction) => {
+   if (req.isAuthenticated()) {
+      res.redirect('/cards')
+    } else {
+      return next()
+    }
+  },
+
+
   middleware: {
     getUser: (req: Request, res: Response, next: NextFunction) => {
       const { login, email, name, avatar_url } = res.locals.GHUser;

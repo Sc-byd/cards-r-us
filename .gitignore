@@ -4,3 +4,6 @@ dist
 .env
 .DS_Store
 .vscode
+cypress/*
+!cypress/support
+!cypress/e2e
