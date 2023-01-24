@@ -6,7 +6,7 @@ import authRouter from './auth';
 //cardsRouter
 import cardsRouter from './cards';
 // oauth router
-import oauthRouter from './oauth/oauth';
+import oauthRouter from './oauth';
 // Ai generation router
 import aiGeneration from './generation/generation';
 
