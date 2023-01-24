@@ -11,10 +11,12 @@ const router = Router();
 //GET REQUEST
 router.get(
   '/',
-  oauthController.ensureAuth,
-  sessionController.isLoggedIn,
-  cardsController.getCards,
+  // oauthController.ensureAuth,
+  // sessionController.isLoggedIn,
+  // cardsController.getCards,
   (req: Request, res: Response) => {
+    console.log('hello alex');
+    console.log(req.user, 'req.user');
     //respond to client with cards collection data retrieved from DB
     console.log('GET REQUEST for cardsController.getCards');
     return res.status(200).json(res.locals.cards);

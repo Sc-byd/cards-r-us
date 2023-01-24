@@ -37,6 +37,9 @@ app.use(
     // need to update models appropriately
   })
 );
+//user does Oauth thing get authenticated by github
+//callback function inside of passportUse 
+//
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -49,6 +52,7 @@ passport.use(
     },
     async function (accessToken: any, refreshToken: any, profile: any, done: any) {
       const newUser = {
+        //make a new object to store in DB
         //insert keys that match Usermodel, insert values that match profile values 
       }
 
@@ -69,13 +73,22 @@ passport.use(
     }
   )
 );
+
+//if not authorized homepage login signup if not authenticated
+//if authenticated, dont allow them to go to login or homepage 
+
+//stores in DB
 passport.serializeUser(function (user, done) {
+  //need to find the id in user-->only need id
   done(null, user);
 });
 
+//turns cookie info into user object
 passport.deserializeUser(function (user: any, done) {
   done(null, user);
 });
+
+
 //static server dist folder
 
 app.use('/', express.static(path.resolve('./dist')));

@@ -18,7 +18,7 @@ const router = Router();
 router.use('/auth', authRouter);
 
 //cardsRoute
-router.use('/cards', oauthController.ensureAuth, cardsRouter);
+router.use('/cards', cardsRouter);
 
 //createRoute
 router.use('/generate', aiGeneration);

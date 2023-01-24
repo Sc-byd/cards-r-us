@@ -49,7 +49,6 @@ interface User {
   username: string;
 }
 
-
 const GalleryPage: React.FC = () => {
   const [displaySideBar, setDisplaySideBar] = useState(true);
   // const [filterCardsByAuthor, setFilterCardsByAuthor] = useState(false);
@@ -65,7 +64,7 @@ const GalleryPage: React.FC = () => {
   useEffect(() => {
     // TODO: Replace this with a fetch to backend
     // TODO: fix bug where "fetch" occurs on every filter
-    if (!cards) {
+    if (true) {
       fetch('/api/cards/', { method: 'GET' })
         .then((d) => {
           if (d.status !== 200) {
@@ -85,27 +84,30 @@ const GalleryPage: React.FC = () => {
         });
     }
 
-    if (!user) {
-      fetch('/api/auth/user', { method: 'GET' })
-        .then((d) => {
-          if (d.status !== 200) {
-            setError(true);
-          }
-          return d.json();
-        })
-        .then((d) => {
-          // Set the card state
-          setUser(d);
-        })
-        .catch((e) => {
-          setError(true);
-          console.log('Error occured: ', e);
-        });
-    }
-  });
+    // if (!user) {
+    //   fetch('/api/auth/user', { method: 'GET' })
+    //     .then((d) => {
+    //       if (d.status !== 200) {
+    //         setError(true);
+    //       }
+    //       return d.json();
+    //     })
+    //     .then((d) => {
+    //       // Set the card state
+    //       setUser(d);
+    //     })
+    //     .catch((e) => {
+    //       setError(true);
+    //       console.log('Error occured: ', e);
+    //     });
+    // }
+  }, []);
 
   // This will be used to delete cards
-  const handleCardDelete = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, id: string) => {
+  const handleCardDelete = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    id: string
+  ) => {
     e.preventDefault();
     console.log('delete ', id);
     const filtered = cards.filter((card) => card.cardId !== id);
