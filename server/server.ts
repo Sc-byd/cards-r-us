@@ -4,6 +4,8 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 // require('dotenv').config();
 import dotenv from 'dotenv';
+import { generateUploadURL } from './s3.js';
+
 
 dotenv.config();
 
@@ -29,6 +31,12 @@ mongoose
   .catch(() => {
     console.log('Failed to connect to DB ❌');
   });
+
+//from Sam Meech-Ward tutorial
+app.get('/s3Url', async (req, res) => {
+  const url = await s3.generateUploadURL();
+  res.send({url})
+})
 
 // Main page
 app.get('/', (req: Request, res: Response) => {
