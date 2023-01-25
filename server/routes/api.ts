@@ -14,6 +14,7 @@ import oauthController from '../controllers/oauth/oAuthController';
 
 const router = Router();
 
+
 // auth route
 router.use('/auth', authRouter);
 

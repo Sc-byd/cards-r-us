@@ -11,12 +11,12 @@ const router = Router();
 //GET REQUEST
 router.get(
   '/',
-  // oauthController.ensureAuth,
+  oauthController.ensureAuth,
   // sessionController.isLoggedIn,
-  // cardsController.getCards,
+  cardsController.getCards,
   (req: Request, res: Response) => {
-    console.log('hello alex');
-    console.log(req.user, 'req.user');
+    // console.log('hello alex');
+    // console.log(req.user, 'req.user');
     //respond to client with cards collection data retrieved from DB
     console.log('GET REQUEST for cardsController.getCards');
     return res.status(200).json(res.locals.cards);
@@ -25,6 +25,7 @@ router.get(
 
 router.get(
   '/card/:cardId',
+  oauthController.ensureAuth,
   cardsController.getCard,
   (req: Request, res: Response) => {
     res.status(200).json(res.locals.card);
@@ -34,7 +35,8 @@ router.get(
 // CREATE
 router.post(
   '/',
-  sessionController.isLoggedIn,
+  oauthController.ensureAuth,
+  // sessionController.isLoggedIn,
   cardsController.createCard,
   cardsController.getCards,
   (req: Request, res: Response) => {
