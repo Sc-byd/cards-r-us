@@ -3,6 +3,7 @@ import { StudioDataContext } from '../components/Studio/StudioContext/StudioProv
 
 const useStudioData = () => {
   const { studioData, setStudioData } = React.useContext(StudioDataContext);
+
   return { studioData, setStudioData };
 };
 

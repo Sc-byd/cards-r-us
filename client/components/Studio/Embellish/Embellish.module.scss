@@ -1,0 +1,11 @@
+.layout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  max-width: 100vw;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}

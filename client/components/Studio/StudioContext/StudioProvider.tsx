@@ -11,8 +11,14 @@ const DEFAULT_CARD: CardData = {
     src: 'https://picsum.photos/200',
     alt: 'random image',
   },
-  color: {
-    back: 'beige',
+  backgroundColor: 'beige',
+  banner: {
+    enabled: false,
+    color: 'white',
+  },
+  texture: {
+    pattern: 'none',
+    intensity: 0.5,
   },
   text: {
     front: {

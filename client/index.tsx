@@ -88,9 +88,10 @@ const routes = [
                 src: 'https://picsum.photos/200',
                 alt: 'random image',
               },
-              color: {
-                back: 'beige',
-                banner: 'white',
+              backgroundColor: 'beige',
+              banner: {
+                enabled: true,
+                color: 'white',
               },
               text: {
                 front: {
@@ -105,7 +106,7 @@ const routes = [
                 },
               },
               texture: {
-                pattern: 'leather',
+                pattern: 'none',
                 intensity: 0.6,
               },
               id: '123',

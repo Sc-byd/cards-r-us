@@ -11,7 +11,8 @@ import fabricTexture from '/client/images/textures/fabric.png';
 
 export type Texture = keyof typeof TEXTURES;
 
-const TEXTURES = {
+export const TEXTURES = {
+  none: '',
   paper: paperTexture,
   cardboard: cardboardTexture,
   metal: metalTexture,
@@ -89,12 +90,12 @@ const Card: React.FC<CardProps> = ({
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}>
         <div className={styles.front}>
-          {data.texture && (
+          {data.texture.pattern !== 'none' && (
             <img
               className={styles.texture}
               src={TEXTURES[data.texture.pattern]}
               style={{
-                opacity: data.texture.intensity,
+                opacity: data.texture.intensity / 100,
               }}
               draggable={false}
             />
@@ -107,8 +108,13 @@ const Card: React.FC<CardProps> = ({
           <div
             className={styles.banner}
             style={{
-              backgroundColor: data.color.banner || 'transparent',
+              backgroundColor: data.banner.enabled
+                ? data.banner.color
+                : 'transparent',
               top: frontBannerPosition,
+              boxShadow: data.banner.enabled
+                ? 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;'
+                : 'none',
             }}>
             <h2 style={{ color: data.text.front.color }}>
               {data.text.front.value}
@@ -123,13 +129,13 @@ const Card: React.FC<CardProps> = ({
         </div>
         <div
           className={styles.back}
-          style={{ backgroundColor: data.color.back }}>
-          {data.texture && (
+          style={{ backgroundColor: data.backgroundColor }}>
+          {data.texture.pattern !== 'none' && (
             <img
               className={styles.texture}
               src={TEXTURES[data.texture.pattern]}
               style={{
-                opacity: data.texture.intensity,
+                opacity: data.texture.intensity / 100,
               }}
               draggable={false}
             />
