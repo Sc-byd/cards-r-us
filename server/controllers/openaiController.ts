@@ -1,6 +1,10 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { Request, Response, NextFunction } from 'express';
 import UserModel from '../models/UserModel';
+import { Rekognition, aws } from 'aws-sdk';
+import dotenv from 'dotenv';
+dotenv.config();
+//import aws from aws-sdk
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -54,19 +58,37 @@ const openaiController = {
     return next();
   },
 
+  convertImage: async (req: Request, res: Response, next: NextFunction) => {
+    // const region = 'us-east-' ;
+    // const bucketName = 'openai-bucket-upload';
+    // const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+    // const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+    // const s3 = new aws.S3({
+    //   region, accessKeyId, secretAccessKey, signatureVersion: 4
+    // })
+  },
+
   saveImage: async (req: Request, res: Response, next: NextFunction) => {
+    //passed in image url
+    const url = req.params.url;
     //convert images to s3
-    //const s3Conversion =
-    const user = await UserModel.findOneAndUpdate(
-      {
-        id: req.session.passport.user.userId,
-      },
-      { gallery: req.params.gallery }
-    );
+
+    //const s3Url =
+    const user = await UserModel.findOne({
+      id: req.user.userId,
+    });
 
     if (!user) {
       throw new Error('error retrieving user while saving image');
     }
+
+    // user.gallery = [...user.gallery, s3Url];
+
+    const update = await UserModel.findOneAndUpdate(
+      { id: req.user.userId },
+      { gallery: user.gallery }
+    );
+
     return next();
   },
 };
