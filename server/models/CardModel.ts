@@ -7,11 +7,12 @@ export interface CardData {
     src: string;
     alt: string;
   };
-  color: {
-    back: string;
-    banner?: string;
+  backgroundColor: string;
+  banner: {
+    enabled: boolean;
+    color: string;
   };
-  texture?: {
+  texture: {
     pattern: Texture;
     intensity: number;
   };
@@ -37,14 +38,14 @@ const cardSchema = new mongoose.Schema<CardData>(
       src: { type: String, required: true },
       alt: { type: String, required: true },
     },
-    color: {
-      back: { type: String, required: true },
-      banner: { type: String, required: false },
-      texture: { type: String, required: false },
+    backgroundColor: { type: String, required: true },
+    banner: {
+      enabled: { type: Boolean, required: true, default: false },
+      color: { type: String, required: true },
     },
     texture: {
-      pattern: { type: String, required: false },
-      intensity: { type: Number, required: false },
+      pattern: { type: String, required: true },
+      intensity: { type: Number, required: true },
     },
     text: {
       front: {

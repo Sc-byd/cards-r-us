@@ -21,9 +21,10 @@ const app = express();
 // Routers
 import apiRouter from './routes/api';
 import oauthRouter from './routes/oauth';
-import authRouter from './routes/auth';
 import oauthController from './controllers/oauth/oAuthController';
-import logoutRouter from './routes/logoutRouter';
+import authRouter from './routes/auth';
+
+// import logoutRouter from './routes/logoutRouter';
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // added this...does this make a difference?
@@ -131,8 +132,18 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/cards', oauthController.ensureAuth, (req, res) => {
   res.status(200).sendFile(path.resolve('./dist/index.html'));
 });
+
 app.use('/oauth', oauthRouter);
 app.use('/api', apiRouter);
+
+app.get('/image/upload', oauthController.ensureAuth, (req, res) => {
+  /* get url from s3 */
+});
+
+app.post('/image/generate', oauthController.ensureAuth, (req, res) => {
+  /* return 4 urls of something */
+});
+
 app.use('/login', oauthController.ensureGuest, (req, res) => {
   res.status(200).sendFile(path.resolve('./dist/index.html'));
 });
@@ -145,6 +156,11 @@ app.use('/logout', (req, res, next) => {
     res.redirect('/');
   });
 });
+
+//NEW ROUTE
+//NEW ROUTE
+//NEW ROUTE
+//NEW ROUTE
 
 // 404 redirect to index.html for react router
 app.use((req: Request, res: Response) =>
