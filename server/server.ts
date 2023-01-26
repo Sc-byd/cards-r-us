@@ -70,16 +70,14 @@ passport.use(
       profile: any,
       done: any
     ) {
-      console.log(profile._json, 'PROFILE ONLY');
+      console.log(profile._json, 'PROFILE IN GITHUB STRATEGY');
       const newUser = {
         username: profile._json.login,
-        userId: profile._json.id,
         //make a new object to store in DB
         //insert keys that match Usermodel, insert values that match profile values
       };
 
       console.log(newUser, 'NEW USER');
-      console.log(typeof newUser.userId);
       try {
         let user = await User.findOne({
           username: profile._json.login,
@@ -87,11 +85,10 @@ passport.use(
 
         console.log(user, 'current user from database!');
         if (user) {
-          console.log('user found in database');
           done(null, user);
         } else {
-          console.log('creating new user');
-          User.create(newUser);
+          console.log('User Not Found, creating new user');
+          await User.create(newUser);
           return done(null, user);
         }
       } catch (err) {
@@ -126,6 +123,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/cards', oauthController.ensureAuth, (req, res) => {
+  console.log(req.user, 'req user in cards route');
+  console.log(req.session, ' req session in cards route ')
   res.status(200).sendFile(path.resolve('./dist/index.html'));
 });
 
@@ -136,10 +135,14 @@ app.get('/image/upload', oauthController.ensureAuth, (req, res) => {
   /* get url from s3 */
 });
 
-app.post('/image/generate', oauthController.ensureAuth, openaiController.createImage,
-(req: Request, res: Response) => {
-  res.status(200).json(res.locals.image);
-});
+app.post(
+  '/image/generate',
+  oauthController.ensureAuth,
+  openaiController.createImage,
+  (req: Request, res: Response) => {
+    res.status(200).json(res.locals.image);
+  }
+);
 
 app.use('/login', oauthController.ensureGuest, (req, res) => {
   res.status(200).sendFile(path.resolve('./dist/index.html'));
