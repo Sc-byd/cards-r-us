@@ -8,12 +8,11 @@ import connectToDB from './db';
 import session from 'express-session';
 import passport from 'passport';
 import MongoStore from 'connect-mongo';
+// const GitHubStrategy = require('passport-github2').Strategy;
 
 import User from './models/UserModel';
-// const GitHubStrategy = require('passport-github2').Strategy;
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-dotenv.config();
 
 const PORT = 3000;
 const app = express();
@@ -22,7 +21,8 @@ const app = express();
 import apiRouter from './routes/api';
 import oauthRouter from './routes/oauth';
 import oauthController from './controllers/oauth/oAuthController';
-import authRouter from './routes/auth';
+import { keyframes } from '@emotion/react';
+import openaiController from './controllers/openaiController';
 
 // import logoutRouter from './routes/logoutRouter';
 app.use(cookieParser());
@@ -31,10 +31,6 @@ app.use(express.urlencoded({ extended: true })); // added this...does this make 
 
 //database call
 connectToDB();
-//if not authorized homepage login signup if not authenticated
-//if authenticated, dont allow them to go to login or homepage
-//stores in DB
-// passport authentication
 app.use(
   session({
     secret: 'cardSession',
@@ -140,8 +136,9 @@ app.get('/image/upload', oauthController.ensureAuth, (req, res) => {
   /* get url from s3 */
 });
 
-app.post('/image/generate', oauthController.ensureAuth, (req, res) => {
-  /* return 4 urls of something */
+app.post('/image/generate', oauthController.ensureAuth, openaiController.createImage,
+(req: Request, res: Response) => {
+  res.status(200).json(res.locals.image);
 });
 
 app.use('/login', oauthController.ensureGuest, (req, res) => {
@@ -156,12 +153,7 @@ app.use('/logout', (req, res, next) => {
     res.redirect('/');
   });
 });
-
-//NEW ROUTE
-//NEW ROUTE
-//NEW ROUTE
-//NEW ROUTE
-
+// app.use('/google', googleRouter);
 // 404 redirect to index.html for react router
 app.use((req: Request, res: Response) =>
   res.status(200).sendFile(path.resolve('./dist/index.html'))

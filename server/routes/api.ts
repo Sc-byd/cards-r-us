@@ -14,7 +14,6 @@ import oauthController from '../controllers/oauth/oAuthController';
 
 const router = Router();
 
-
 router.get('/cards', oauthController.ensureAuth, (req, res) => {
   /* get cards from database */
 });
@@ -24,6 +23,11 @@ router.post('/cards', oauthController.ensureAuth, (req, res) => {
 router.get('/cards/:id', oauthController.ensureAuth, (req, res) => {
   /* get one card by the cardId*/
 });
+// auth route
+router.use('/auth', authRouter);
+
+// //cardsRoute
+// router.use('/cards', cardsRouter);
 
 // // auth route
 // router.use('/auth', authRouter);
@@ -32,7 +36,7 @@ router.get('/cards/:id', oauthController.ensureAuth, (req, res) => {
 // router.use('/cards', cardsRouter);
 
 // //createRoute
-// router.use('/generate', aiGeneration);
+router.use('/generate', aiGeneration);
 
 // oauth
 router.use('/oauth', oauthRouter);
