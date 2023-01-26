@@ -1,5 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { Request, Response, NextFunction } from 'express';
+import UserModel from '../models/UserModel';
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -18,6 +19,7 @@ const openaiController = {
         { url: 'https://source.unsplash.com/random/' },
       ],
     };
+
     return next();
 
     const { userPrompt } = req.body;
@@ -49,6 +51,22 @@ const openaiController = {
       }
     }
     console.log('complete');
+    return next();
+  },
+
+  saveImage: async (req: Request, res: Response, next: NextFunction) => {
+    //convert images to s3
+    //const s3Conversion =
+    const user = await UserModel.findOneAndUpdate(
+      {
+        id: req.session.passport.user.userId,
+      },
+      { gallery: req.params.gallery }
+    );
+
+    if (!user) {
+      throw new Error('error retrieving user while saving image');
+    }
     return next();
   },
 };
