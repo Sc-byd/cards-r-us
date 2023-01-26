@@ -6,7 +6,7 @@ const cardsController = {
   getAllCards: async (req: Request, res: Response, next: NextFunction) => {
     const getCards = await CardModel.find({
       //not finding property passport when offline...may need to log in first for this to be functional 
-      authorId: req.user.userId,
+      authorId: req.session.passport.user.userId,
     });
 
     try {

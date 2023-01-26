@@ -75,7 +75,7 @@ const openaiController = {
 
     //const s3Url =
     const user = await UserModel.findOne({
-      id: req.user.userId,
+      id: req.session.passport.user.userId,
     });
 
     if (!user) {
@@ -85,8 +85,8 @@ const openaiController = {
     // user.gallery = [...user.gallery, s3Url];
 
     const update = await UserModel.findOneAndUpdate(
-      { id: req.user.userId },
-      { gallery: user.gallery }
+      { id: req.session.passport.user.userId },
+      { gallery: [...user.gallery /* s3Url */] }
     );
 
     return next();
