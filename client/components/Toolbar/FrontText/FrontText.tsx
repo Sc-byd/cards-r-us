@@ -2,6 +2,7 @@ import React from 'react';
 import useStudioData from '../../../hooks/useStudioData';
 import TempColorPicker from '../TempColorPicker';
 import styles from './FrontText.module.scss';
+import { SketchPicker } from 'react-color';
 
 const FrontText = () => {
   const { studioData, setStudioData } = useStudioData();
@@ -57,7 +58,8 @@ const FrontText = () => {
       </div>
       <div>
         <h4>Color</h4>
-        <TempColorPicker
+        <SketchPicker />
+        {/* <TempColorPicker
           onColorChange={(color) =>
             setStudioData((studioData) => {
               const newStudioData = structuredClone(studioData);
@@ -65,7 +67,7 @@ const FrontText = () => {
               return newStudioData;
             })
           }
-        />
+        /> */}
       </div>
     </div>
   );

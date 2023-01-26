@@ -1,16 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
+import GlowButton from '../../GlowButton/GlowButton';
+import styles from './ChooseImageType.module.scss';
 
 const ChooseImageType = () => {
   const navigate = useNavigate();
   return (
-    <div>
-      <button onClick={() => navigate('/cards/create/generate-image')}>
+    <div className={styles.container}>
+      <GlowButton onClick={() => navigate('/cards/create/generate-image')}>
         Generate Image with AI
-      </button>
-      <button onClick={() => navigate('/cards/create/upload-image')}>
+      </GlowButton>
+      <GlowButton onClick={() => navigate('/cards/create/upload-image')}>
         Upload Custom Image
-      </button>
+      </GlowButton>
     </div>
   );
 };

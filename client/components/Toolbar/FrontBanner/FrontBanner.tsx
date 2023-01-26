@@ -1,11 +1,12 @@
 import React from 'react';
 import useStudioData from '../../../hooks/useStudioData';
 import TempColorPicker from '../TempColorPicker';
+import styles from './frontBanner.module.scss';
 
 const FrontBanner = () => {
   const { studioData, setStudioData } = useStudioData();
   return (
-    <div id='banner'>
+    <div id='banner' className={styles.layout}>
       <h3>Banner</h3>
       <input
         type='checkbox'

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import useStudioData from '../../../hooks/useStudioData';
+import styles from './SelectImage.module.scss';
 
 const SelectImage = () => {
   const { studioData, setStudioData } = useStudioData();
@@ -8,8 +9,13 @@ const SelectImage = () => {
   const [images, setImages] = React.useState<string[]>([]);
 
   React.useEffect(() => {
+    if (!studioData.imagePrompt) {
+      // navigate('/cards/create/generate-image');
+      // return;
+    }
     const fetchImages = async () => {
-      const response = await fetch('/api/generate/create', {
+      console.log('Fetching images from OpenAI...');
+      const response = await fetch('/image/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -18,9 +24,9 @@ const SelectImage = () => {
           userPrompt: studioData.imagePrompt,
         }),
       });
-      const data = await response.json();
+      const { data } = await response.json();
       console.log('Image data from OpenAI: ', data);
-      // TODO: Add images to state
+      setImages(data.map((imageData: { url: string }) => imageData.url));
     };
     fetchImages();
   }, []);
@@ -36,13 +42,18 @@ const SelectImage = () => {
   };
 
   return (
-    <div>
-      <h2>Pick your favorite image</h2>
-      {images.map((image) => (
-        <div onClick={() => handleSelectImage(image)}>
-          <img src={image} alt={studioData.imagePrompt} />
-        </div>
-      ))}
+    <div className={styles.container}>
+      <h2 className={styles.glowtext}>Pick your favorite image</h2>
+      <div className={styles.layout}>
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className={styles.imageContainer}
+            onClick={() => handleSelectImage(image)}>
+            <img src={image} alt={studioData.imagePrompt} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

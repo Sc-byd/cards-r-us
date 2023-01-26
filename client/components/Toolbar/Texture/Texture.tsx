@@ -2,6 +2,7 @@ import { Option, Select, Slider } from '@mui/joy';
 import React from 'react';
 import useStudioData from '../../../hooks/useStudioData';
 import { Texture, TEXTURES } from '../../Card/Card';
+import styles from './Texture.module.scss';
 
 const TEXTURE_OPTIONS = Object.keys(TEXTURES).map((texture) => {
   const formattedTexture = texture.slice(0, 1).toUpperCase() + texture.slice(1);
@@ -11,7 +12,7 @@ const TEXTURE_OPTIONS = Object.keys(TEXTURES).map((texture) => {
 const Texture = () => {
   const { studioData, setStudioData } = useStudioData();
   return (
-    <div id='texture'>
+    <div id='texture' className={styles.layout}>
       <h3>Texture</h3>
       <div>
         <h4>Pattern</h4>
