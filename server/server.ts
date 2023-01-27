@@ -67,7 +67,9 @@ passport.use(
       if (!user) {
         return done(null, false);
       }
+      const verifyPassword = bcrypt.compare(password, user.password);
 
+      
       //write bcrypt hash checker here
     });
   })
