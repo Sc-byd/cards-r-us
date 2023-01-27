@@ -13,7 +13,7 @@ router.get(
   '/',
   oauthController.ensureAuth,
   // sessionController.isLoggedIn,
-  cardsController.getCards,
+  cardsController.getAllCards,
   (req: Request, res: Response) => {
     // console.log('hello alex');
     // console.log(req.user, 'req.user');
@@ -26,7 +26,7 @@ router.get(
 router.get(
   '/card/:cardId',
   oauthController.ensureAuth,
-  cardsController.getCard,
+  cardsController.getOneCard,
   (req: Request, res: Response) => {
     res.status(200).json(res.locals.card);
   }
@@ -37,8 +37,7 @@ router.post(
   '/',
   oauthController.ensureAuth,
   // sessionController.isLoggedIn,
-  cardsController.createCard,
-  cardsController.getCards,
+  // cardsController.createCard,
   (req: Request, res: Response) => {
     console.log('CREATE REQUEST for cardsController.createCard');
     return res.status(200).json(res.locals.cards);
@@ -50,7 +49,6 @@ router.delete(
   '/',
   sessionController.isLoggedIn,
   cardsController.deleteCard,
-  cardsController.getCards,
   (req: Request, res: Response) => {
     console.log('DELETE REQUEST for cardsController.deleteCard');
     return res.status(200).json(res.locals.cards);

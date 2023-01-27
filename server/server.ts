@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 require('dotenv').config();
 import dotenv from 'dotenv';
 import connectToDB from './db';
-import User from './models/UserModel';
+import UserModel, { User } from './models/UserModel';
 import MongoStore from 'connect-mongo';
 // const GitHubStrategy = require('passport-github2').Strategy;
 
@@ -13,7 +13,10 @@ import bcrypt from 'bcrypt';
 import passport from 'passport';
 import session from 'express-session';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { Strategy as GitHubStrategy } from 'passport-github2';
+import {
+  Profile as GithubProfile,
+  Strategy as GitHubStrategy,
+} from 'passport-github2';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 
 const PORT = 3000;
@@ -47,31 +50,28 @@ app.use(
 //
 app.use(passport.initialize());
 app.use(passport.session());
-
+// req.user => cookie
 passport.serializeUser(function (user, done) {
   //need to find the id in user-->only need id
   done(null, user);
 });
 
-//turns cookie info into user object
+// cookie => req.user
 passport.deserializeUser(function (user: any, done) {
   done(null, user);
 });
 
 passport.use(
   new LocalStrategy(async (username: string, password: string, done: any) => {
-    await User.findOne({ username: username }, (err, user) => {
-      if (err) {
-        return done(err);
-      }
-      if (!user) {
-        return done(null, false);
-      }
-      const verifyPassword = bcrypt.compare(password, user.password);
-
-      
-      //write bcrypt hash checker here
-    });
+    const user = await UserModel.findOne({ username: username });
+    if (!user) {
+      return done(null, false, { message: 'Incorrect username.' });
+    }
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return done(null, false, { message: 'Incorrect password.' });
+    }
+    return done(null, user);
   })
 );
 
@@ -86,34 +86,31 @@ passport.use(
     async function (
       accessToken: any,
       refreshToken: any,
-      profile: any,
+      profile: GithubProfile,
       done: any
     ) {
-      console.log(profile._json, 'PROFILE IN GITHUB STRATEGY');
-      const newUser = {
-        username: profile._json.login,
-        //make a new object to store in DB
-        //insert keys that match Usermodel, insert values that match profile values
-      };
+      const { id, username, displayName, photos, emails } = profile;
 
-      console.log(newUser, 'NEW USER');
       try {
-        let user = await User.findOne({
-          username: profile._json.login,
+        let user = await UserModel.findOne({
+          email: emails?.[0].value,
         });
 
-        console.log(user, 'current user from database!');
-        if (user) {
-          done(null, user);
-        } else {
-          console.log('User Not Found, creating new user');
-          await User.create(newUser);
-          return done(null, user);
+        if (!user) {
+          const newUser = new UserModel({
+            username: username,
+            avatar: photos?.[0].value,
+            name: displayName,
+            email: emails?.[0].value,
+            userId: id,
+          });
+          await newUser.save();
+          return done(null, newUser);
         }
+        return done(null, user);
       } catch (err) {
-        throw new Error('error in the GitHub Strategy Login');
+        console.log(err);
       }
-      done(null, profile);
     }
   )
 );
@@ -145,6 +142,11 @@ app.use('/cards', oauthController.ensureAuth, (req, res) => {
   console.log(req.user, 'req user in cards route');
   console.log(req.session, ' req session in cards route ');
   res.status(200).sendFile(path.resolve('./dist/index.html'));
+});
+
+app.get('/me', (req, res) => {
+  if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+  res.status(200).json(req.user);
 });
 
 app.use('/oauth', oauthRouter);

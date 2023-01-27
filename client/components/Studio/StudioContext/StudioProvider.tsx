@@ -18,7 +18,7 @@ const DEFAULT_CARD: CardData = {
   },
   texture: {
     pattern: 'none',
-    intensity: 0.5,
+    intensity: 50,
   },
   text: {
     front: {

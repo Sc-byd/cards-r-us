@@ -1,8 +1,9 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { Request, Response, NextFunction } from 'express';
 import UserModel from '../models/UserModel';
-import { Rekognition, aws } from 'aws-sdk';
+// import { Rekognition, aws } from 'aws-sdk';
 import dotenv from 'dotenv';
+import CardModel from '../models/CardModel';
 dotenv.config();
 //import aws from aws-sdk
 
@@ -74,21 +75,40 @@ const openaiController = {
     //convert images to s3
 
     //const s3Url =
-    const user = await UserModel.findOne({
-      id: req.session.passport.user.userId,
-    });
+    let {
+      id,
+      image,
+      backgroundColor,
+      banner,
+      texture,
+      text,
+      authorId,
+      ownerId,
+      createdAt,
+    } = req.body;
 
-    if (!user) {
-      throw new Error('error retrieving user while saving image');
+    // set image to s3Url
+    // image = s3Url
+    authorId = req.session.passport.user.userId;
+    try {
+      await CardModel.create({
+        id,
+        image,
+        backgroundColor,
+        banner,
+        texture,
+        text,
+        authorId,
+        ownerId,
+        createdAt,
+      });
+    } catch (err) {
+      return next({
+        log: 'Error saving card in openaiController',
+        status: 500,
+        message: { err },
+      });
     }
-
-    // user.gallery = [...user.gallery, s3Url];
-
-    const update = await UserModel.findOneAndUpdate(
-      { id: req.session.passport.user.userId },
-      { gallery: [...user.gallery /* s3Url */] }
-    );
-
     return next();
   },
 };
