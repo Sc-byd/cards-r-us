@@ -4,12 +4,10 @@ import { Request, Response, NextFunction } from 'express';
 
 const cardsController = {
   getAllCards: async (req: Request, res: Response, next: NextFunction) => {
-    const getCards = await CardModel.find({
-      //not finding property passport when offline...may need to log in first for this to be functional
-      // authorId: req.session.passport.user.userId,
-    });
-
     try {
+      const getCards = await CardModel.find({
+        authorId: req.session.passport.user.userId,
+      });
       // if get cards is undefined
       // ? how do we handle situation with no cards?
       if (!getCards) {
