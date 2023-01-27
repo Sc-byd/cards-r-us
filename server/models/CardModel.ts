@@ -49,16 +49,17 @@ const cardSchema = new mongoose.Schema<CardData>(
     },
     text: {
       front: {
-        value: { type: String, required: true },
+        value: { type: String, required: false, default: '' },
         color: { type: String, required: true },
         position: { type: String, required: true },
       },
       back: {
-        value: { type: String, required: true },
+        value: { type: String, required: false, default: '' },
         color: { type: String, required: true },
       },
     },
     authorId: { type: String, required: true },
+    ownerId: { type: String, required: true },
     createdAt: { type: Date, default: new Date() },
   },
   {

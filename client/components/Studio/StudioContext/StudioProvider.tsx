@@ -4,6 +4,7 @@ import { CardData } from '../../../../server/models/CardModel';
 export interface StudioData {
   cardData: CardData;
   imagePrompt?: string;
+  cardOrientation: 'front' | 'back';
 }
 
 const DEFAULT_CARD: CardData = {
@@ -45,6 +46,7 @@ interface StudioContext {
 export const StudioDataContext = React.createContext<StudioContext>({
   studioData: {
     cardData: DEFAULT_CARD,
+    cardOrientation: 'front',
   },
   setStudioData: () => {},
 });
@@ -52,6 +54,7 @@ export const StudioDataContext = React.createContext<StudioContext>({
 const StudioProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [studioData, setStudioData] = React.useState<StudioData>({
     cardData: DEFAULT_CARD,
+    cardOrientation: 'front',
   });
   return (
     <StudioDataContext.Provider value={{ studioData, setStudioData }}>

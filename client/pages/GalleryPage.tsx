@@ -1,5 +1,5 @@
 import React from 'react';
-import LandingHeader from '../components/PageHeader/PageHeader';
+import PageHeader from '../components/PageHeader/PageHeader';
 import Sidebar from '../components/Sidebar/Sidebar';
 import MovingBackground from '../components/MovingBackground/MovingBackground';
 import { Outlet } from 'react-router';
@@ -7,7 +7,7 @@ import { Outlet } from 'react-router';
 const GalleryPage: React.FC = () => {
   return (
     <MovingBackground night>
-      <LandingHeader includeNav={false} />
+      <PageHeader includeNav={false} logoNav='/cards' />
       <Sidebar />
       <Outlet />
     </MovingBackground>

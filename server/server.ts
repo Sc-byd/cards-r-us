@@ -28,6 +28,13 @@ import oauthRouter from './routes/oauth';
 import oauthController from './controllers/oauth/oAuthController';
 import { keyframes } from '@emotion/react';
 import openaiController from './controllers/openaiController';
+import {
+  initializeGithubStrategy,
+  initializeGoogleStrategy,
+  initializeLocalStrategy,
+  initializeUserSerialization,
+} from './passport';
+import cardsRouter from './routes/cards';
 
 // import logoutRouter from './routes/logoutRouter';
 app.use(cookieParser());
@@ -50,88 +57,20 @@ app.use(
 //
 app.use(passport.initialize());
 app.use(passport.session());
-// req.user => cookie
-passport.serializeUser(function (user, done) {
-  //need to find the id in user-->only need id
-  done(null, user);
-});
 
-// cookie => req.user
-passport.deserializeUser(function (user: any, done) {
-  done(null, user);
-});
+initializeLocalStrategy();
+initializeGithubStrategy();
+initializeGoogleStrategy();
 
-passport.use(
-  new LocalStrategy(async (username: string, password: string, done: any) => {
-    const user = await UserModel.findOne({ username: username });
-    if (!user) {
-      return done(null, false, { message: 'Incorrect username.' });
-    }
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return done(null, false, { message: 'Incorrect password.' });
-    }
-    return done(null, user);
-  })
-);
-
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: process.env.GITHUB_ID || '',
-      clientSecret: process.env.GITHUB_SECRET || '',
-      // scope: ['user:email'],
-      callbackURL: 'http://localhost:8080/oauth/github/callback',
-    },
-    async function (
-      accessToken: any,
-      refreshToken: any,
-      profile: GithubProfile,
-      done: any
-    ) {
-      const { id, username, displayName, photos, emails } = profile;
-
-      try {
-        let user = await UserModel.findOne({
-          email: emails?.[0].value,
-        });
-
-        if (!user) {
-          const newUser = new UserModel({
-            username: username,
-            avatar: photos?.[0].value,
-            name: displayName,
-            email: emails?.[0].value,
-            userId: id,
-          });
-          await newUser.save();
-          return done(null, newUser);
-        }
-        return done(null, user);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  )
-);
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_SECRET || '',
-      callbackURL: 'http://localhost:8080/oauth/google/callback',
-    },
-    function (accessToken: any, refreshToken: any, profile: any, done: any) {
-      console.log('Google Strategy');
-      done(null, profile);
-    }
-  )
-);
+initializeUserSerialization();
 
 //static server dist folder
 
 app.use('/', express.static(path.resolve('./dist')));
+
+app.use('/oauth', oauthRouter);
+app.use('/api/cards', cardsRouter);
+app.use('/api', apiRouter);
 
 // Main page
 app.get('/', (req: Request, res: Response) => {
@@ -148,9 +87,6 @@ app.get('/me', (req, res) => {
   if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
   res.status(200).json(req.user);
 });
-
-app.use('/oauth', oauthRouter);
-app.use('/api', apiRouter);
 
 app.get('/image/upload', oauthController.ensureAuth, (req, res) => {
   /* get url from s3 */

@@ -14,10 +14,11 @@ const Texture = () => {
   return (
     <div id='texture' className={styles.layout}>
       <h3>Texture</h3>
-      <div>
+      <div className={styles.pattern}>
         <h4>Pattern</h4>
         <Select
           value={studioData.cardData.texture.pattern}
+          sx={{ width: '100%' }}
           onChange={(_, value) => {
             setStudioData((studioData) => {
               const newStudioData = structuredClone(studioData);
@@ -36,7 +37,7 @@ const Texture = () => {
           ))}
         </Select>
       </div>
-      <div>
+      <div className={styles.intensity}>
         <h4>Intensity</h4>
         <Slider
           aria-label='Volume'

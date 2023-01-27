@@ -3,6 +3,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Card from './components/Card/Card';
+import CardView from './components/CardView/CardView';
+import Gallery from './components/Gallery/Gallery';
 import Headline from './components/Headline/Headline';
 import LoginForm from './components/LoginForm/LoginForm';
 import RegisterForm from './components/RegisterForm/RegisterForm';
@@ -47,7 +49,11 @@ const routes = [
     children: [
       {
         path: '/cards',
-        element: <Headline>Gallery</Headline>, //TODO: Add gallery element here
+        element: <Gallery />,
+      },
+      {
+        path: '/cards/:id',
+        element: <CardView />,
       },
       {
         path: '/cards/create',
@@ -79,53 +85,7 @@ const routes = [
           },
         ],
       },
-      {
-        path: '/cards/1',
-        element: (
-          <Card
-            data={{
-              image: {
-                src: 'https://picsum.photos/200',
-                alt: 'random image',
-              },
-              backgroundColor: 'beige',
-              banner: {
-                enabled: true,
-                color: 'white',
-              },
-              text: {
-                front: {
-                  value: 'Front Text',
-                  color: 'black',
-                  position: 'bottom',
-                },
-                back: {
-                  value:
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus recusandae, sequi molestias earum dolore ex voluptatem eius minus quia ad. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus recusandae, sequi molestias earum dolore ex voluptatem eius minus quia ad.',
-                  color: 'black',
-                },
-              },
-              texture: {
-                pattern: 'none',
-                intensity: 0.6,
-              },
-              id: '123',
-              authorId: '123',
-              ownerId: '123',
-              createdAt: new Date(),
-            }}
-          />
-        ),
-      },
     ],
-  },
-  // {
-  //   path: '/card',
-  //   element: <CardViewPage />,
-  // },
-  {
-    path: '/create',
-    element: <CreateCard />,
   },
 ];
 const element = document.querySelector('#App');

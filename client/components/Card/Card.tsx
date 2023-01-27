@@ -25,19 +25,30 @@ interface CardProps {
   data: CardData;
   flippable?: boolean;
   initialPosition?: 'front' | 'back';
+  scale?: number;
+  pivot?: boolean;
 }
 
 const Card: React.FC<CardProps> = ({
   data,
   flippable = true,
   initialPosition = 'front',
+  scale = 1,
+  pivot = true,
 }) => {
   const [flipped, setFlipped] = React.useState(
     initialPosition === 'back' ? true : false
   );
-  const [pivotDisabled, setPivotDisabled] = React.useState(false);
+  const [pivotDisabled, setPivotDisabled] = React.useState(!pivot);
   const [xPivot, setXPivot] = React.useState(0);
   const [yPivot, setYPivot] = React.useState(0);
+
+  // interpolate range -100 to 100 to 0 to 100
+  const shinePosition = (xPivot + -yPivot) / 2 + 50;
+
+  React.useEffect(() => {
+    setFlipped(initialPosition === 'back' ? true : false);
+  }, [initialPosition]);
 
   const handlePointerMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (pivotDisabled) return;
@@ -62,7 +73,7 @@ const Card: React.FC<CardProps> = ({
     setXPivot(0);
     setYPivot(0);
     setPivotDisabled(true);
-    setTimeout(() => setPivotDisabled(false), 700);
+    setTimeout(() => setPivotDisabled(!pivot), 700);
   };
 
   const handlePointerLeave = () => {
@@ -80,7 +91,11 @@ const Card: React.FC<CardProps> = ({
   }[data.text.front.position];
 
   return (
-    <div className={styles.outer}>
+    <div
+      className={styles.outer}
+      style={{
+        transform: `scale(${scale})`,
+      }}>
       <div
         className={styles.inner}
         style={{
@@ -101,9 +116,13 @@ const Card: React.FC<CardProps> = ({
             />
           )}
           {/* <div
-            className={styles.texture}
+            className={styles.shine}
             style={{
-              backgroundImage: `linear-gradient(55deg, transparent, rgba(255 255 255 / 1) 0%, transparent)`,
+              backgroundImage: `linear-gradient(
+                55deg,
+                transparent,
+                rgba(255 255 255 / 0.1) ${shinePosition}%,
+                transparent)`,
             }}></div> */}
           <div
             className={styles.banner}

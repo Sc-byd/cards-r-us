@@ -45,6 +45,9 @@ $card-height: 400px;
   padding: 1rem;
   p {
     font-size: 1.15rem;
+    width: 100%;
+    text-align: center;
+    word-wrap: break-word;
   }
 }
 
@@ -76,4 +79,12 @@ $card-height: 400px;
   background-size: cover;
   background-repeat: repeat;
   background-position: center;
+}
+
+.shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

@@ -7,10 +7,17 @@
   padding: 1rem;
   background-color: beige;
   max-width: 100%;
-  max-height: 75vh;
+  height: 42rem;
   overflow-y: scroll;
   box-sizing: border-box;
-
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  border-radius: 6px;
+  filter: drop-shadow(0px 0px 9px #b4ffffd0);
   @media screen and (max-width: 600px) {
     flex-direction: row;
     overflow-x: scroll;
