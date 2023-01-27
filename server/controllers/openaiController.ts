@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { Request, Response, NextFunction } from 'express';
 import UserModel from '../models/UserModel';
-import { Rekognition, aws } from 'aws-sdk';
+// import { Rekognition, aws } from 'aws-sdk';
 import dotenv from 'dotenv';
 dotenv.config();
 //import aws from aws-sdk
@@ -75,7 +75,7 @@ const openaiController = {
 
     //const s3Url =
     const user = await UserModel.findOne({
-      id: req.session.passport.user.userId,
+      // id: req.session.passport.user.userId,
     });
 
     if (!user) {
@@ -85,8 +85,8 @@ const openaiController = {
     // user.gallery = [...user.gallery, s3Url];
 
     const update = await UserModel.findOneAndUpdate(
-      { id: req.session.passport.user.userId },
-      { gallery: [...user.gallery /* s3Url */] }
+      // { id: req.session.passport.user.userId },
+      // { gallery: [...user.gallery /* s3Url */] }
     );
 
     return next();

@@ -5,8 +5,8 @@ import { Request, Response, NextFunction } from 'express';
 const cardsController = {
   getAllCards: async (req: Request, res: Response, next: NextFunction) => {
     const getCards = await CardModel.find({
-      //not finding property passport when offline...may need to log in first for this to be functional 
-      authorId: req.session.passport.user.userId,
+      //not finding property passport when offline...may need to log in first for this to be functional
+      // authorId: req.session.passport.user.userId,
     });
 
     try {
@@ -44,21 +44,18 @@ const cardsController = {
     // what properties need to be updated
   },
 
-  // may have coded this one wrong 
-  deleteCard: async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-    err: Error
-  ) => {
-    await CardModel.deleteOne(
-      { id: req.params.id },
-      (req: Request, res: Response, next: NextFunction, err: Error) => {
-        if (err) {
-          return next(err);
-        }
-      }
-    );
+  // may have coded this one wrong
+  deleteCard: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await CardModel.deleteOne({ id: req.params.id });
+    } catch (err) {
+      return next({
+        log: 'Error deleting card in cardController',
+        status: 500,
+        message: { err },
+      });
+    }
+    return next();
   },
 
   // async getCards(req: Request, res: Response, next: NextFunction) {

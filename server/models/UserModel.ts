@@ -10,7 +10,6 @@ export interface User {
   username: string;
   avatar: string;
   name: string;
-  gallery: string[];
 }
 
 const userSchema = new mongoose.Schema<User>(
@@ -39,11 +38,6 @@ const userSchema = new mongoose.Schema<User>(
       type: String,
       require: false,
       default: '',
-    },
-    gallery: {
-      type: Array(String),
-      require: false,
-      default: [],
     },
   },
   {

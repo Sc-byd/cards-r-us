@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import { Avatar, CircularProgress } from '@mui/joy';
 import React from 'react';
 import { useNavigate } from 'react-router';
 import useUser from '../../hooks/useUser';
@@ -12,12 +12,14 @@ const UserProfile: React.FC = () => {
     // navigate('/login');
   }
 
+  console.log('avatar', user?.avatar ?? 'loading');
+
   return (
     <div className={styles.user}>
       {user ? (
         <>
-          {/* <Avatar src={user.avatar} placeholder='P' /> */}
-          <img src={user.avatar} className={styles.avatar} />
+          <Avatar src={user.avatar} placeholder={user.username.slice(0, 1)} />
+          {/* <img src={user.avatar} className={styles.avatar} /> */}
           <h2>{user.username || 'Test User'}</h2>
         </>
       ) : (

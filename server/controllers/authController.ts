@@ -63,7 +63,6 @@ const authController = {
         const user = {
           email: userAccount.email,
           id: userAccount.userId,
-          gallery: userAccount.gallery,
           avatar: userAccount.avatar,
         };
         res.locals.user = user;
