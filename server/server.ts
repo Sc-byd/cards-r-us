@@ -5,12 +5,14 @@ import cookieParser from 'cookie-parser';
 require('dotenv').config();
 import dotenv from 'dotenv';
 import connectToDB from './db';
-import session from 'express-session';
-import passport from 'passport';
+import User from './models/UserModel';
 import MongoStore from 'connect-mongo';
 // const GitHubStrategy = require('passport-github2').Strategy;
 
-import User from './models/UserModel';
+import bcrypt from 'bcrypt';
+import passport from 'passport';
+import session from 'express-session';
+import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github2';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 
@@ -55,6 +57,21 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user: any, done) {
   done(null, user);
 });
+
+passport.use(
+  new LocalStrategy(async (username: string, password: string, done: any) => {
+    await User.findOne({ username: username }, (err, user) => {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        return done(null, false);
+      }
+
+      //write bcrypt hash checker here
+    });
+  })
+);
 
 passport.use(
   new GitHubStrategy(
@@ -124,7 +141,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/cards', oauthController.ensureAuth, (req, res) => {
   console.log(req.user, 'req user in cards route');
-  console.log(req.session, ' req session in cards route ')
+  console.log(req.session, ' req session in cards route ');
   res.status(200).sendFile(path.resolve('./dist/index.html'));
 });
 
