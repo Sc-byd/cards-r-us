@@ -43,3 +43,14 @@
   align-items: center;
   gap: 0.25rem;
 }
+
+.color {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  h4 {
+    margin-bottom: 0;
+  }
+}

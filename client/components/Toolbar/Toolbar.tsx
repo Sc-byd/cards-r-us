@@ -11,7 +11,9 @@ const Toolbar = () => {
   return (
     <div className={styles.layout}>
       <FrontText />
+      <div className={styles.divider}></div>
       <FrontBanner />
+      <div className={styles.divider}></div>
       <Texture />
     </div>
   );

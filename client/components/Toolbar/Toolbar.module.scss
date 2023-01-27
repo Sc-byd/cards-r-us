@@ -11,8 +11,30 @@
   overflow-y: scroll;
   box-sizing: border-box;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 600px) {
     flex-direction: row;
     overflow-x: scroll;
+  }
+}
+
+.divider {
+  height: 1px !important;
+  width: 90%;
+  background-color: rgb(169, 169, 169);
+  @media screen and (max-width: 600px) {
+    width: 1px;
+    height: 90%;
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 90%;
+    background-color: rgb(169, 169, 169);
+    @media screen and (max-width: 600px) {
+      width: 1px;
+      height: 100%;
+    }
   }
 }

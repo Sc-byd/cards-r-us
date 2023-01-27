@@ -7,6 +7,7 @@ import { IconButton, Textarea } from '@mui/joy';
 import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import VerticalAlignCenterIcon from '@mui/icons-material/VerticalAlignCenter';
 import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
+import ColorPicker from '../ColorPicker/ColorPicker';
 
 const FrontText = () => {
   const { studioData, setStudioData } = useStudioData();
@@ -27,6 +28,9 @@ const FrontText = () => {
               newStudioData.cardData.text.front.value = e.target.value;
               return newStudioData;
             });
+          }}
+          sx={{
+            height: '3rem',
           }}
         />
       </div>
@@ -65,19 +69,20 @@ const FrontText = () => {
           </IconButton>
         </div>
       </div>
-      <div>
+      <div className={styles.color}>
         <h4>Color</h4>
-        {/* <SketchPicker /> */}
-        <TempColorPicker
-          onColorChange={(color) =>
+        <ColorPicker
+          color={studioData.cardData.text.front.color}
+          onColorChange={(color) => {
             setStudioData((studioData) => {
               const newStudioData = structuredClone(studioData);
               newStudioData.cardData.text.front.color = color;
               return newStudioData;
-            })
-          }
+            });
+          }}
         />
       </div>
+      
     </div>
   );
 };
