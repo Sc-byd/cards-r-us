@@ -18,7 +18,11 @@ const cardsController = {
         getCards,
       });
     } catch (err) {
-      return next(err);
+      return next({
+        log: 'Error getting all cards in cardsController',
+        status: 500,
+        message: { err },
+      });
     }
   },
 
@@ -34,7 +38,11 @@ const cardsController = {
         card,
       });
     } catch (err) {
-      return next(err);
+      return next({
+        log: 'Error getting one card in cardsController',
+        status: 500,
+        message: { err },
+      });
     }
   },
 
