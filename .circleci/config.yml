@@ -6,4 +6,4 @@ workflows:
     jobs:
       - cypress/run:
           component: true
-          executor: cypress/base-16
+          executor: cypress/base:17.3.0
