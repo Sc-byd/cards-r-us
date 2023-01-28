@@ -1,8 +1,9 @@
 version: 2.1
 orbs:
-  cypress: cypress-io/cypress@2.2.0
+  cypress: cypress-io/cypress@2
 workflows:
   build:
     jobs:
       - cypress/run:
           component: true
+          executor: cypress/base-16-14-2-slim

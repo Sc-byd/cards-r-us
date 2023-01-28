@@ -1,8 +1,11 @@
 {
-  "name": "scratch-project",
-  "version": "1.0.0",
+  "name": "cards-r-us",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": ">= 16.0.0"
+  },
   "scripts": {
     "start:dev": "concurrently \"ts-node ./server/server.ts\" \"webpack serve\"",
     "start": "npm run build && node ./dist/server/server.js",
