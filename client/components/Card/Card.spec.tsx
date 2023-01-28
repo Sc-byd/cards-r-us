@@ -9,10 +9,15 @@ describe('Card', () => {
         src: 'https://picsum.photos/200',
         alt: 'random image',
       },
-      color: {
-        back: 'red',
-        banner: 'green',
+      banner: {
+        enabled: false,
+        color: 'white',
       },
+      texture: {
+        pattern: 'none',
+        intensity: 0.5,
+      },
+      backgroundColor: 'beige',
       text: {
         front: {
           value: 'front',

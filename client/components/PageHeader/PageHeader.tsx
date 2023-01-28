@@ -5,11 +5,15 @@ import styles from './PageHeader.module.scss';
 
 interface PageHeaderProps {
   includeNav?: boolean;
+  logoNav?: string;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ includeNav = true }) => (
+const PageHeader: React.FC<PageHeaderProps> = ({
+  includeNav = true,
+  logoNav = '/',
+}) => (
   <header className={styles.header}>
-    <Logo />
+    <Logo to={logoNav} />
     {includeNav && (
       <nav className={styles.navigation}>
         <NeonCircleLink to='/login'>Login</NeonCircleLink>

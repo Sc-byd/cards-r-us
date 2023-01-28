@@ -3,9 +3,18 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Card from './components/Card/Card';
+import CardView from './components/CardView/CardView';
+import Gallery from './components/Gallery/Gallery';
 import Headline from './components/Headline/Headline';
 import LoginForm from './components/LoginForm/LoginForm';
 import RegisterForm from './components/RegisterForm/RegisterForm';
+import ChooseImageType from './components/Studio/ChooseImageType/ChooseImageType';
+import Embellish from './components/Studio/Embellish/Embellish';
+import FinishSend from './components/Studio/FinishSend/FinishSend';
+import GenerateImage from './components/Studio/GenerateImage/GenerateImage';
+import SelectImage from './components/Studio/SelectImage/SelectImage';
+import Studio from './components/Studio/Studio/Studio';
+import UploadImage from './components/Studio/UploadImage/UploadImage';
 import CreateCard from './pages/CreateCardPage';
 import ErrorPage from './pages/ErrorPage';
 import GalleryPage from './pages/GalleryPage';
@@ -40,54 +49,43 @@ const routes = [
     children: [
       {
         path: '/cards',
-        element: <Headline>Gallery</Headline>, //TODO: Add gallery element here
+        element: <Gallery />,
       },
       {
-        path: '/cards/1',
-        element: (
-          <Card
-            data={{
-              image: {
-                src: 'https://picsum.photos/200',
-                alt: 'random image',
-              },
-              color: {
-                back: 'beige',
-                banner: 'white',
-              },
-              text: {
-                front: {
-                  value: 'Front Text',
-                  color: 'black',
-                  position: 'bottom',
-                },
-                back: {
-                  value:
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus recusandae, sequi molestias earum dolore ex voluptatem eius minus quia ad. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus recusandae, sequi molestias earum dolore ex voluptatem eius minus quia ad.',
-                  color: 'black',
-                },
-              },
-              texture: {
-                pattern: 'leather',
-                intensity: 0.6,
-              },
-              id: '123',
-              authorId: '123',
-              ownerId: '123',
-              createdAt: new Date(),
-            }}
-          />
-        ),
+        path: '/cards/:id',
+        element: <CardView />,
+      },
+      {
+        path: '/cards/create',
+        element: <Studio />,
+        children: [
+          {
+            path: '/cards/create/choose-image-type',
+            element: <ChooseImageType />,
+          },
+          {
+            path: '/cards/create/generate-image',
+            element: <GenerateImage />,
+          },
+          {
+            path: '/cards/create/select-image',
+            element: <SelectImage />,
+          },
+          {
+            path: '/cards/create/upload-image',
+            element: <UploadImage />,
+          },
+          {
+            path: '/cards/create/embellish',
+            element: <Embellish />,
+          },
+          {
+            path: '/cards/create/finish-send',
+            element: <FinishSend />,
+          },
+        ],
       },
     ],
-  },
-  // {
-  //   path: '/card',
-  //   element: <CardViewPage />,
-  // },
-  {
-    path: '/create',
-    element: <CreateCard />,
   },
 ];
 const element = document.querySelector('#App');

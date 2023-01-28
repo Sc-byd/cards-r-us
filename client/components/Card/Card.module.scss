@@ -9,6 +9,9 @@ $card-height: 400px;
     user-select: none;
     box-sizing: border-box;
   }
+  @media screen and (max-width: 600px) {
+    transform: scale(0.75);
+  }
 }
 
 .inner {
@@ -42,6 +45,9 @@ $card-height: 400px;
   padding: 1rem;
   p {
     font-size: 1.15rem;
+    width: 100%;
+    text-align: center;
+    word-wrap: break-word;
   }
 }
 
@@ -60,8 +66,8 @@ $card-height: 400px;
   justify-content: center;
   align-items: center;
   position: absolute;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  // box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+  //   rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .texture {
@@ -73,4 +79,12 @@ $card-height: 400px;
   background-size: cover;
   background-repeat: repeat;
   background-position: center;
+}
+
+.shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

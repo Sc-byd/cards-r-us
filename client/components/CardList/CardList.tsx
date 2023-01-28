@@ -1,32 +1,41 @@
 import { FilterList } from '@mui/icons-material';
 import { Button } from '@mui/joy';
 import React from 'react';
+import { useNavigate } from 'react-router';
+import { CardData } from '../../../server/models/CardModel';
+import useUser from '../../hooks/useUser';
+import Card from '../Card/Card';
 import styles from './CardList.module.scss';
 
 const FILTERS = ['All', 'Sent', 'Received'];
 
 const CardList = () => {
   const [filterIndex, setFilterIndex] = React.useState(0);
-  const [cards, setCards] = React.useState([]);
+  const [cards, setCards] = React.useState<CardData[]>([]);
+  const [filteredCards, setFilteredCards] = React.useState<CardData[]>([]);
+
+  const { user } = useUser();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
+    if (!user) return;
     const getCards = async () => {
       const response = await fetch('/api/cards');
       const data = await response.json();
       setCards(data);
     };
-    // getCards(); //TODO: Uncomment this after updating the API
-  }, []);
+    getCards();
+  }, [user]);
 
   React.useEffect(() => {
-    setCards((cards) => {
+    setFilteredCards((cards) => {
       switch (filterIndex) {
         case 0:
           return cards;
         case 1:
-          return cards; // TODO: Filter sent cards
+          return cards.filter((card) => card.authorId === user?.userId);
         case 2:
-          return cards; // TODO: Filter received cards
+          return cards.filter((card) => card.ownerId === user?.userId);
         default:
           return cards;
       }
@@ -46,7 +55,19 @@ const CardList = () => {
         {FILTERS[filterIndex]}
       </Button>
       <div className={styles.list}>
-        <ul>{/* TODO: Display cards */}</ul>
+        <ul>
+          {filteredCards.map((card) => {
+            return (
+              <li
+                key={card.id}
+                onClick={() => {
+                  navigate(`/cards/${card.id}`);
+                }}>
+                <Card data={card} />
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );

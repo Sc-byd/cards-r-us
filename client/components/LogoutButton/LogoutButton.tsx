@@ -2,7 +2,7 @@ import { Logout } from '@mui/icons-material';
 import { IconButton } from '@mui/joy';
 import React from 'react';
 import styles from './LogoutButton.module.scss';
-
+import axios from 'axios';
 interface LogoutButtonProps {
   collapsed: boolean;
 }

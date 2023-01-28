@@ -14,13 +14,14 @@ const useUser = () => {
 
   React.useEffect(() => {
     const getUser = async () => {
-      const response = await fetch('/api/auth/user');
+      const response = await fetch('/me');
       const data = await response.json();
-      if (data.status !== 200) {
+      if (response.status !== 200) {
         setError(true);
-        console.log('Error occured: ', data.message);
+        console.log('Error occured: ', data);
       }
-      // setUser(data); //TODO: Uncomment this line after updating the API
+      console.log('data: ', data);
+      setUser(data); //TODO: Uncomment this line after updating the API
     };
 
     getUser();
