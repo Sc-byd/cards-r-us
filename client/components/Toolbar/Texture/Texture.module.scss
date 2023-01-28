@@ -1,0 +1,33 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: row;
+  }
+
+  h4,
+  h3 {
+    margin: 0;
+  }
+}
+
+.intensity {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.pattern {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}

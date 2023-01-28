@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "jsx": "react",
+    "module": "commonjs",
+    "types": ["cypress", "node", "cypress-real-events"],
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true
+  },
+  "include": ["./client/**/*", "./server/**/*", "cypress"],
+  "exclude": ["node_modules"]
+}

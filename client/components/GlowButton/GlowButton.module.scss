@@ -1,0 +1,41 @@
+@use '../../styles/colors' as *;
+
+.button {
+  all: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  span {
+    color: #ffffff;
+    filter: drop-shadow(0px 0px 4px #b4ffffd0);
+    border-radius: 0.75rem;
+    // background: #2b44673e;
+    margin-bottom: 3em;
+    padding: 1em 1.5em 1em 1.5em;
+    border: 5px solid;
+    font-size: 1.25rem;
+    font-weight: bold;
+    font-family: $main-font;
+    overflow: hidden;
+    white-space: nowrap;
+    box-shadow: -1px 1px 35px -2px rgba(0, 38, 87, 0.63);
+    -webkit-box-shadow: -1px 1px 35px -2px rgba(0, 38, 87, 0.63);
+    -moz-box-shadow: -1px 1px 35px -2px rgba(0, 38, 87, 0.63);
+    &:hover {
+      background-color: #af79ff25;
+      filter: drop-shadow(0px 0px 9px #b4ffffd0);
+      cursor: pointer;
+    }
+    &:active {
+      transform: translateY(2px);
+      filter: drop-shadow(0px 0px 14px #b4ffffd0);
+    }
+  }
+
+  &:disabled span {
+    background-color: #af79ff25;
+    filter: 'none';
+    cursor: not-allowed;
+  }
+}

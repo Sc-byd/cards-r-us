@@ -1,0 +1,83 @@
+.container {
+  position: fixed;
+  top: 120px;
+  left: 48px;
+  right: 0;
+  bottom: 0;
+  overflow: scroll;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  @media screen and (max-width: 600px) {
+    left: 0;
+    bottom: 80px;
+  }
+
+  @media screen and (max-width: 900px) {
+    top: 90px;
+  }
+
+  h2 {
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 0px 0px 4px #b4ffffd0;
+    border-radius: 0.75rem;
+    max-width: 90%;
+    margin: 0;
+    padding: 0;
+
+    font-size: 1.5rem;
+    font-weight: bold;
+    overflow: hidden;
+  }
+}
+
+.cards {
+  display: flex;
+  transform: scale(0.5);
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  p {
+    color: #ffffff;
+    text-align: center;
+    text-shadow: 0px 0px 4px #b4ffffd0;
+    border-radius: 0.75rem;
+    max-width: 90%;
+
+    font-size: 2.5rem;
+    font-weight: bold;
+    overflow: hidden;
+  }
+}
+
+.createButton {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  span {
+    font-size: 1.25rem;
+    padding: 0.25em 0.75em;
+  }
+}
+
+.cardButton {
+  cursor: pointer;
+  &:hover {
+    filter: drop-shadow(0px 0px 4px #b4ffffd0);
+    transform: translateY(-1px);
+  }
+  &:active {
+    transform: translateY(2px);
+    filter: drop-shadow(0px 0px 9px #b4ffffd0);
+  }
+}

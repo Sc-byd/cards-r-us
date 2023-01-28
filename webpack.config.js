@@ -3,18 +3,28 @@ require('dotenv').config();
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: process.env.TARGET,
-  entry: path.resolve('./frontend/index.jsx'),
+  mode: 'development',
+  entry: path.resolve('./client/index.tsx'),
 
   module: {
     rules: [
       {
-        test: /\.jsx?$/i,
+        test: /\.js$/i,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
           },
         },
       },
@@ -38,29 +48,30 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.jsx', '.js'],
+    extensions: ['.jsx', '.js', '.tsx', '.ts'],
   },
 
   devServer: {
     port: 8080,
     static: { directory: './dist' },
     watchFiles: {
-      paths: ['./frontend/**/*'],
+      paths: ['./client/**/*'],
     },
     historyApiFallback: true,
     proxy: {
-      '/api': 'http://localhost:3000',
+      '/**': 'http://localhost:3000',
     },
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve('./frontend/index.html'),
+      template: path.resolve('./client/index.html'),
     }),
   ],
 
   output: {
-    path: path.resolve('./dist'),
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     filename: 'bundle.js',
   },
 };
