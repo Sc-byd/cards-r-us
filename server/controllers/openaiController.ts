@@ -15,16 +15,16 @@ const openai = new OpenAIApi(configuration);
 const openaiController = {
   async createImage(req: Request, res: Response, next: NextFunction) {
     // temporary code to avoid extra calls to openai
-    res.locals.image = {
-      data: [
-        { url: 'https://source.unsplash.com/random/' },
-        { url: 'https://source.unsplash.com/random/' },
-        { url: 'https://source.unsplash.com/random/' },
-        { url: 'https://source.unsplash.com/random/' },
-      ],
-    };
+    // res.locals.image = {
+    //   data: [
+    //     { url: 'https://source.unsplash.com/random/' },
+    //     { url: 'https://source.unsplash.com/random/' },
+    //     { url: 'https://source.unsplash.com/random/' },
+    //     { url: 'https://source.unsplash.com/random/' },
+    //   ],
+    // };
 
-    return next();
+    // return next();
 
     const { userPrompt } = req.body;
     console.log('Generating image from prompt: ', userPrompt);
@@ -84,10 +84,11 @@ const openaiController = {
 
     // user.gallery = [...user.gallery, s3Url];
 
-    const update = await UserModel.findOneAndUpdate(
+    const update = await UserModel
+      .findOneAndUpdate
       // { id: req.session.passport.user.userId },
       // { gallery: [...user.gallery /* s3Url */] }
-    );
+      ();
 
     return next();
   },

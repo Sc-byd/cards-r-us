@@ -1,32 +1,19 @@
-import express, { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
-import path from 'path';
-import cookieParser from 'cookie-parser';
-require('dotenv').config();
-import dotenv from 'dotenv';
-import connectToDB from './db';
-import UserModel, { User } from './models/UserModel';
 import MongoStore from 'connect-mongo';
+import cookieParser from 'cookie-parser';
+import express, { NextFunction, Request, Response } from 'express';
+import path from 'path';
+import connectToDB from './db';
+require('dotenv').config();
 // const GitHubStrategy = require('passport-github2').Strategy;
 
-import bcrypt from 'bcrypt';
-import passport from 'passport';
 import session from 'express-session';
-import { Strategy as LocalStrategy } from 'passport-local';
-import {
-  Profile as GithubProfile,
-  Strategy as GitHubStrategy,
-} from 'passport-github2';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import passport from 'passport';
 
 const PORT = 3000;
 const app = express();
 
 // Routers
-import apiRouter from './routes/api';
-import oauthRouter from './routes/oauth';
 import oauthController from './controllers/oauth/oAuthController';
-import { keyframes } from '@emotion/react';
 import openaiController from './controllers/openaiController';
 import {
   initializeGithubStrategy,
@@ -34,7 +21,10 @@ import {
   initializeLocalStrategy,
   initializeUserSerialization,
 } from './passport';
+import apiRouter from './routes/api';
 import cardsRouter from './routes/cards';
+import oauthRouter from './routes/oauth';
+import imageRouter from './routes/imageRouter';
 
 // import logoutRouter from './routes/logoutRouter';
 app.use(cookieParser());
@@ -70,6 +60,7 @@ app.use('/', express.static(path.resolve('./dist')));
 
 app.use('/oauth', oauthRouter);
 app.use('/api/cards', cardsRouter);
+app.use('/api/image', imageRouter);
 app.use('/api', apiRouter);
 
 // Main page
